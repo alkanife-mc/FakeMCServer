@@ -1,0 +1,16 @@
+{
+  "host": "127.0.0.1",
+  "port": 25565,
+  "base64_icon": null,
+  "protocol": 761,
+  "version_name": "Minecraft 1.19.3",
+  "motd": [
+    "&cMaintenance!"
+  ],
+  "players": [],
+  "connected_players": 0,
+  "max_players": 0,
+  "kick_message": [
+    "Sorry, the server is unavailable at the moment."
+  ]
+}
