@@ -8,7 +8,7 @@
     <img src="https://img.shields.io/github/license/alkanife-mc/FakeMCServer" alt="LICENSE">
   </a>
   <a href="https://github.com/alkanife/FakeMCServer/">
-    <img src="https://img.shields.io/badge/version-1.2-blue" alt="version">
+    <img src="https://img.shields.io/badge/version-1.2.1-blue" alt="version">
   </a>
 </h1>
 
@@ -45,11 +45,14 @@ No arguments required to start. Optional arguments:
 ```
 java -jar FakeMCServer.jar version
 java -jar FakeMCServer.jar [debug] [verbose] [configuration path]
-
-debug (boolean): enables debug mode, false by default
-verbose (boolean): enables verbose mode, will log pings, motd sending, and player kicking, false by default
-configuration path (string): configuration file path, will use 'config.json' by default
 ```
+
+`debug` *(boolean)*: enables debug mode, false by default
+
+`verbose` *(boolean)*: enables verbose mode, will log pings, motd sending, and player kicking, false by default
+
+`configuration path` *(string)*: configuration file path, will use 'config.json' by default
+
 
 ## Configuration
 
