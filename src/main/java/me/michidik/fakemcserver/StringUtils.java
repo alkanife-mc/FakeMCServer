@@ -3,7 +3,6 @@ package me.michidik.fakemcserver;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 
-import java.util.List;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
@@ -19,21 +18,6 @@ public class StringUtils {
             return "";
 
         return colorPattern.matcher(msg).replaceAll("\u00a7$1");
-    }
-
-    public static String combineList(List<String> list) {
-        if (list == null)
-            return "";
-
-        if (list.size() == 0)
-            return "";
-
-        StringBuilder stringBuilder = new StringBuilder();
-
-        for (String s : list)
-            stringBuilder.append(s).append("\\n");
-
-        return stringBuilder.toString();
     }
 
     public static String buildServerPingResponse(FakeMCServerConfiguration conf) {
