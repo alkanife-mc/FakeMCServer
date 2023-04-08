@@ -74,14 +74,14 @@ public class ResponderThread extends Thread {
                         if (state == 1) {
                             // Ping
                             showMotd = true;
-                            fakeMCServer.logResult("Ping <-> " + this.remoteHost);
+                            fakeMCServer.verbose("Ping <-> " + this.remoteHost);
                         } else if (state == 2) {
                             // Login
                             String kickMessage = "{text:\"Disconnected\"}";
                             if (fakeMCServer.getConfig().getKick_message() != null)
                                 kickMessage = GsonComponentSerializer.gson().serialize(MiniMessage.miniMessage().deserialize(fakeMCServer.getConfig().getKick_message()));
                             writeData(kickMessage);
-                            fakeMCServer.logResult("Kick <-> " + this.remoteHost);
+                            fakeMCServer.verbose("Kick <-> " + this.remoteHost);
                             fakeMCServer.debug("Kick message: " + kickMessage);
                             return;
                         }
@@ -89,7 +89,7 @@ public class ResponderThread extends Thread {
                         // MOTD packet
                         String motd = StringUtils.buildServerPingResponse(fakeMCServer.getConfig());
                         writeData(motd);
-                        fakeMCServer.logResult("MOTD <-> " + this.remoteHost);
+                        fakeMCServer.verbose("MOTD <-> " + this.remoteHost);
                         fakeMCServer.debug("MOTD: " + motd);
                         showMotd = false;
                     }
@@ -101,7 +101,7 @@ public class ResponderThread extends Thread {
                     this.out.writeLong(lng);
                     this.out.flush();
                 } else {
-                    fakeMCServer.getLogger().warn("Unknown packet: " + packetId);
+                    fakeMCServer.verbose("Unknown packet: " + packetId);
                     return;
                 }
             }

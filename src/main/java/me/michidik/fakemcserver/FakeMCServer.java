@@ -17,30 +17,23 @@ import java.nio.file.Files;
  */
 public class FakeMCServer {
 
-    private final Logger logger;
+    private Logger logger;
     private volatile boolean debug;
-    private volatile boolean logResults;
+    private volatile boolean verbose = false;
     private volatile boolean stopping = false;
     public final int SOCKET_BACKLOG = 5;
     private FakeMCServerConfiguration configuration;
     public volatile ServerSocket server = null;
 
-    public FakeMCServer(boolean debug, boolean logResults, String configPath) {
-        this.debug = debug;
-        this.logResults = logResults;
+    public FakeMCServer() {}
+
+    public FakeMCServer(Logger logger) {
+        this.logger = logger;
+    }
+
+    public void setupDefaultLogger() {
         logger = LoggerFactory.getLogger(FakeMCServer.class);
-
-        try {
-            debug("Debug mode enabled");
-
-            if (configPath != null)
-                loadConfiguration(configPath);
-
-            addShutdownHook();
-            startServer();
-        } catch (Exception exception) {
-            System.exit(0);
-        }
+        logger.info("Using default logger");
     }
 
     public void loadConfiguration(String configPath) throws Exception {
@@ -49,7 +42,7 @@ public class FakeMCServer {
         File confFile = new File(configPath);
 
         if (!confFile.exists())
-            throw new FileNotFoundException("Configuration file not found.");
+            throw new FileNotFoundException("Configuration file not found");
 
         String content = Files.readString(confFile.toPath());
 
@@ -68,7 +61,7 @@ public class FakeMCServer {
         if (stopping)
             throw new IllegalAccessError();
 
-        getLogger().debug("Starting server...");
+        getLogger().info("Starting server...");
 
         final String host = (getConfig().getHost() == null || getConfig().getHost().isEmpty()) ? "127.0.0.1" : getConfig().getHost();
         final int port = (getConfig().getPort() == 0) ? 25565 : getConfig().getPort();
@@ -116,8 +109,8 @@ public class FakeMCServer {
             getLogger().info("[DEBUG] " + message);
     }
 
-    public void logResult(final String message) {
-        if (logResults)
+    public void verbose(final String message) {
+        if (verbose)
             getLogger().info(message);
     }
 
@@ -138,15 +131,23 @@ public class FakeMCServer {
         this.configuration = configuration;
     }
 
-    public boolean isLoggingResults() {
-        return logResults;
+    public boolean isVerbose() {
+        return verbose;
     }
 
-    public void setLogResults(boolean logResults) {
-        this.logResults = logResults;
+    public void setVerbose(boolean verbose) {
+        this.verbose = verbose;
     }
 
     public Logger getLogger() {
         return logger;
+    }
+
+    public void setLogger(Logger logger) {
+        this.logger = logger;
+    }
+
+    public void setDebug(boolean debug) {
+        this.debug = debug;
     }
 }

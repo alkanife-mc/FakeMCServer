@@ -43,8 +43,12 @@ A fake Minecraft server featuring customizable:
 ## Usage
 No arguments required to start. Optional arguments:
 ```
-java -jar FakeMCServer.jar help - Display version
-java -jar FakeMCServer.jar debug - Start with debug mode
+java -jar FakeMCServer.jar version
+java -jar FakeMCServer.jar [debug] [verbose] [configuration path]
+
+debug (boolean): enables debug mode, false by default
+verbose (boolean): enables verbose mode, will log pings, motd sending, and player kicking, false by default
+configuration path (string): configuration file path, will use 'config.json' by default
 ```
 
 ## Configuration
