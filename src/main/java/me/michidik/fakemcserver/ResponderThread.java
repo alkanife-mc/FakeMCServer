@@ -1,5 +1,8 @@
 package me.michidik.fakemcserver;
 
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
+
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -15,6 +18,7 @@ import java.net.SocketTimeoutException;
 
 public class ResponderThread extends Thread {
 
+    private final FakeMCServer fakeMCServer;
     private volatile Thread thread = null;
     private final Socket socket;
     private final String remoteHost;
@@ -22,7 +26,9 @@ public class ResponderThread extends Thread {
     private final DataInputStream in;
     private final DataOutputStream out;
 
-    public ResponderThread(final Socket socket) throws IOException {
+    public ResponderThread(final FakeMCServer fakeMCServer, final Socket socket) throws IOException {
+        this.fakeMCServer = fakeMCServer;
+
         if (socket == null)
             throw new NullPointerException();
 
@@ -57,7 +63,7 @@ public class ResponderThread extends Thread {
                         final int port = this.in.readUnsignedShort();
                         final int state = ByteBufUtils.readVarInt(this.in);
 
-                        FakeMCServer.debug("State request: " +
+                        fakeMCServer.debug("State request: " +
                                 "len:" + length + " " +
                                 "id:" + packetId + " " +
                                 "vers:" + version + " " +
@@ -68,43 +74,45 @@ public class ResponderThread extends Thread {
                         if (state == 1) {
                             // Ping
                             showMotd = true;
-                            FakeMCServer.getLogger().info("Ping <-> " + this.remoteHost);
+                            fakeMCServer.logResult("Ping <-> " + this.remoteHost);
                         } else if (state == 2) {
                             // Login
-                            String kickMessage = StringUtils.parse(StringUtils.combineList(FakeMCServer.getConfig().getKick_message()));
-                            writeData("{text:\"" + kickMessage + "\"}");
-                            FakeMCServer.getLogger().info("Kick <-> " + this.remoteHost);
-                            FakeMCServer.debug("Kick message: " + kickMessage);
+                            String kickMessage = "{text:\"Disconnected\"}";
+                            if (fakeMCServer.getConfig().getKick_message() != null)
+                                kickMessage = GsonComponentSerializer.gson().serialize(MiniMessage.miniMessage().deserialize(fakeMCServer.getConfig().getKick_message()));
+                            writeData(kickMessage);
+                            fakeMCServer.logResult("Kick <-> " + this.remoteHost);
+                            fakeMCServer.debug("Kick message: " + kickMessage);
                             return;
                         }
                     } else {
                         // MOTD packet
-                        String motd = StringUtils.buildServerPingResponse();
+                        String motd = StringUtils.buildServerPingResponse(fakeMCServer.getConfig());
                         writeData(motd);
-                        FakeMCServer.getLogger().info("MOTD <-> " + this.remoteHost);
-                        FakeMCServer.debug("MOTD: " + motd);
+                        fakeMCServer.logResult("MOTD <-> " + this.remoteHost);
+                        fakeMCServer.debug("MOTD: " + motd);
                         showMotd = false;
                     }
                 } else if(packetId == 1) {
                     long lng = this.in.readLong();
-                    FakeMCServer.debug("Pong! lng:" + lng);
+                    fakeMCServer.debug("Pong! lng:" + lng);
                     ByteBufUtils.writeVarInt(this.out, 9);
                     ByteBufUtils.writeVarInt(this.out, 1);
                     this.out.writeLong(lng);
                     this.out.flush();
                 } else {
-                    FakeMCServer.getLogger().warn("Unknown packet: " + packetId);
+                    fakeMCServer.getLogger().warn("Unknown packet: " + packetId);
                     return;
                 }
             }
         }
         //ignore this unnecessary error
         catch (EOFException ignore) {
-            FakeMCServer.debug("(end of socket)");
+            fakeMCServer.debug("(end of socket)");
         } catch (SocketTimeoutException ignore) {
-            FakeMCServer.debug("(socket timeout)");
+            fakeMCServer.debug("(socket timeout)");
         } catch (SocketException ignore) {
-            FakeMCServer.debug("(socket closed)");
+            fakeMCServer.debug("(socket closed)");
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -115,9 +123,9 @@ public class ResponderThread extends Thread {
 
     private final void closeSocket() {
         this.enabled = false;
-        FakeMCServer.safeClose(this.in);
-        FakeMCServer.safeClose(this.out);
-        FakeMCServer.safeClose(this.socket);
+        fakeMCServer.safeClose(this.in);
+        fakeMCServer.safeClose(this.out);
+        fakeMCServer.safeClose(this.socket);
         if(this.thread != null)
             this.thread.interrupt();
     }

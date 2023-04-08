@@ -17,42 +17,25 @@ import java.nio.file.Files;
  */
 public class FakeMCServer {
 
-    public static final String VERSION = "1.1";
-    public static final String URL = "https://github.com/alkanife/FakeMCServer";
+    private final Logger logger;
+    private volatile boolean debug;
+    private volatile boolean logResults;
+    private volatile boolean stopping = false;
+    public final int SOCKET_BACKLOG = 5;
+    private FakeMCServerConfiguration configuration;
+    public volatile ServerSocket server = null;
 
-    private static Logger logger;
-
-    public static volatile boolean debug = false;
-    private static volatile boolean stopping = false;
-
-    public static final int SOCKET_BACKLOG = 5;
-
-    private static JSONConfiguration configuration;
-
-    public static volatile ServerSocket server = null;
-
-    public static void main(final String[] args) {
-        System.out.println("FakeMCServer version " + VERSION);
-        System.out.println(URL);
-        System.out.println("Original version by xxmicloxx, lorenzop and michidk");
-        System.out.println("Use the 'debug' argument to enter debug mode");
-
-        if (args.length > 0) {
-            if (args[0].equalsIgnoreCase("help"))
-                return;
-
-            if (args[0].equalsIgnoreCase("debug"))
-                debug = true;
-        }
-
-        System.out.println("----------------------------------------------------");
-
+    public FakeMCServer(boolean debug, boolean logResults, String configPath) {
+        this.debug = debug;
+        this.logResults = logResults;
         logger = LoggerFactory.getLogger(FakeMCServer.class);
 
-        debug("Debug mode enabled");
-
         try {
-            loadConfiguration();
+            debug("Debug mode enabled");
+
+            if (configPath != null)
+                loadConfiguration(configPath);
+
             addShutdownHook();
             startServer();
         } catch (Exception exception) {
@@ -60,10 +43,10 @@ public class FakeMCServer {
         }
     }
 
-    public static void loadConfiguration() throws Exception {
+    public void loadConfiguration(String configPath) throws Exception {
         getLogger().info("Loading configuration...");
 
-        File confFile = new File("config.json");
+        File confFile = new File(configPath);
 
         if (!confFile.exists())
             throw new FileNotFoundException("Configuration file not found.");
@@ -74,18 +57,18 @@ public class FakeMCServer {
                 .serializeNulls()
                 .create();
 
-        configuration = gson.fromJson(content, JSONConfiguration.class);
+        configuration = gson.fromJson(content, FakeMCServerConfiguration.class);
     }
 
-    public static void addShutdownHook() {
-        Runtime.getRuntime().addShutdownHook(new Thread(FakeMCServer::stopServer));
+    public void addShutdownHook() {
+        Runtime.getRuntime().addShutdownHook(new Thread(this::stopServer, "Shutdown hook"));
     }
 
-    public static void startServer() {
+    public void startServer() {
         if (stopping)
             throw new IllegalAccessError();
 
-        getLogger().info("Starting server...");
+        getLogger().debug("Starting server...");
 
         final String host = (getConfig().getHost() == null || getConfig().getHost().isEmpty()) ? "127.0.0.1" : getConfig().getHost();
         final int port = (getConfig().getPort() == 0) ? 25565 : getConfig().getPort();
@@ -93,10 +76,13 @@ public class FakeMCServer {
         try {
             final InetAddress address = InetAddress.getByName(host);
             server = new ServerSocket(port, SOCKET_BACKLOG, address);
-            getLogger().info("Server started on " + host + ":" + port);
+            getLogger().info("ServerSocket started on " + host + ":" + port);
 
-            while (!server.isClosed())
-                new ResponderThread(server.accept()).start();
+            while (!server.isClosed()) {
+                ResponderThread responderThread = new ResponderThread(this, server.accept());
+                responderThread.setName("Responder Thread");
+                responderThread.start();
+            }
         } catch (Exception exception) {
             if (!stopping) {
                 getLogger().error("Failed to start the server on " + host + ":" + port);
@@ -108,7 +94,7 @@ public class FakeMCServer {
         }
     }
 
-    public static void stopServer() {
+    public void stopServer() {
         stopping = true;
 
         if (server == null)
@@ -120,7 +106,7 @@ public class FakeMCServer {
         getLogger().info("Server stopped, bye!");
     }
 
-    public static void debug(final String message) {
+    public void debug(final String message) {
         if (!debug)
             return;
 
@@ -130,7 +116,12 @@ public class FakeMCServer {
             getLogger().info("[DEBUG] " + message);
     }
 
-    public static void safeClose(final Closeable obj) {
+    public void logResult(final String message) {
+        if (logResults)
+            getLogger().info(message);
+    }
+
+    public void safeClose(final Closeable obj) {
         if (obj == null)
             return;
 
@@ -139,11 +130,23 @@ public class FakeMCServer {
         } catch (Exception ignore) {}
     }
 
-    public static JSONConfiguration getConfig() {
+    public FakeMCServerConfiguration getConfig() {
         return configuration;
     }
 
-    public static Logger getLogger() {
+    public void setConfiguration(FakeMCServerConfiguration configuration) {
+        this.configuration = configuration;
+    }
+
+    public boolean isLoggingResults() {
+        return logResults;
+    }
+
+    public void setLogResults(boolean logResults) {
+        this.logResults = logResults;
+    }
+
+    public Logger getLogger() {
         return logger;
     }
 }

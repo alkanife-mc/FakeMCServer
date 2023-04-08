@@ -1,5 +1,8 @@
 package me.michidik.fakemcserver;
 
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
+
 import java.util.List;
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -33,8 +36,7 @@ public class StringUtils {
         return stringBuilder.toString();
     }
 
-    public static String buildServerPingResponse() {
-        JSONConfiguration conf = FakeMCServer.getConfig();
+    public static String buildServerPingResponse(FakeMCServerConfiguration conf) {
         StringBuilder sb = new StringBuilder();
 
         // Version name
@@ -58,11 +60,11 @@ public class StringUtils {
         if (conf.getPlayers() != null) {
             if (conf.getPlayers().size() > 0) {
                 int count = 0;
-                for (final String player : FakeMCServer.getConfig().getPlayers()) {
+                for (final String player : conf.getPlayers()) {
                     if (count != 0)
                         sb.append(",");
                     count++;
-                    sb.append("{\"name\":\"").append(StringUtils.parse(player)).append("\",\"id\":\"").append(UUID.randomUUID().toString()).append("\"}");
+                    sb.append("{\"name\":\"").append(StringUtils.parse(player)).append("\",\"id\":\"").append(UUID.randomUUID()).append("\"}");
                     if (count == 10 && conf.getPlayers().size() > 10)
                         break;
                 }
@@ -71,7 +73,10 @@ public class StringUtils {
         sb.append("]},");
 
         // MOTD
-        sb.append("\"description\":{\"text\":\"").append(conf.getMotd() == null ? "A Minecraft Server" : parse(combineList(conf.getMotd()))).append("\"},");
+        String motd = "{\"text\":\"A Minecraft Server (almost)\"}";
+        if (conf.getMotd() != null)
+            motd = GsonComponentSerializer.gson().serialize(MiniMessage.miniMessage().deserialize(conf.getMotd()));
+        sb.append("\"description\":").append(motd).append(",");
 
         // Icon
         sb.append("\"favicon\": \"").append(conf.getBase64_icon() == null ? "" : conf.getBase64_icon()).append("\" }");
