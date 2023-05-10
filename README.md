@@ -69,7 +69,7 @@ Default configuration [available here](https://github.com/alkanife/FakeMCServer/
 | `players`           | List of String ([legacy colors](https://minecraft.fandom.com/wiki/Formatting_codes)) | Yes       | Player sample (appears when hovering over the number of players)                                       | `["&eplayer1", "&6player2..."]`                        |
 | `connected_players` | Int                                                                                  | /         | Connected "players"                                                                                    | 0                                                      |
 | `max_players`       | Int                                                                                  | /         | Slots                                                                                                  | 0                                                      |
-| `kick_message`      | String ([Minimessage](https://docs.advntr.dev/minimessage/format.html))              | Yes       | The message when a player try to connect                                                               | `<red>Sorry, the server is unavailable at the moment.` |
+| `kick_message`      | String ([Minimessage](https://docs.advntr.dev/minimessage/format.html))              | Yes       | The message when a player tries to connect                                                             | `<red>Sorry, the server is unavailable at the moment.` |
 
 ## Project dependencies
 This project requires **Java 17+**.
