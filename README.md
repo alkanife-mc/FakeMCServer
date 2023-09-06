@@ -36,9 +36,9 @@ A fake Minecraft server featuring customizable:
 
 ## Examples
 
-![Example1](https://share.alkanife.fr/github/fakemcserver/1.png)
-![Example2](https://share.alkanife.fr/github/fakemcserver/2.png)
-![Example3](https://share.alkanife.fr/github/fakemcserver/3.png)
+![Example1](./img/1.png)
+![Example2](./img/2.png)
+![Example3](./img/3.png)
 
 ## Usage
 No arguments required to start. Optional arguments:
