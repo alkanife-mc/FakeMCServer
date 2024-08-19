@@ -4,25 +4,24 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>dev.alka</groupId>
+    <groupId>dev.alka.fakemcserver</groupId>
     <artifactId>fake-mc-server</artifactId>
     <version>2.0.0</version>
     <packaging>pom</packaging>
 	
 	<name>fake-mc-server</name>
-	<description>A java program which simulates a minecraft server, to display informations in the server list.</description>
+	<description>A java program which simulates a minecraft server, to display information in the server list.</description>
 	<url>https://github.com/alkanife/FakeMCServer</url>
 
 	<modules>
-        <module>fake-mc-server-core</module>
-        <module>fake-mc-server-cli</module>
+        <module>core</module>
+        <module>CLI</module>
     </modules>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
 
     <distributionManagement>

@@ -4,12 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>dev.alka</groupId>
+        <groupId>dev.alka.fakemcserver</groupId>
         <artifactId>fake-mc-server</artifactId>
         <version>2.0.0</version>
     </parent>
 
-    <artifactId>fake-mc-server-core</artifactId>
+    <artifactId>core</artifactId>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>

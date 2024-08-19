@@ -97,8 +97,8 @@ If no configuration file has been found, the program will try to create a new on
 </repository>
 
 <dependency>
-    <groupId>dev.alka</groupId>
-    <artifactId>fake-mc-server-core</artifactId>
+    <groupId>dev.alka.fakemcserver</groupId>
+    <artifactId>core</artifactId>
     <version>VERSION</version>
 </dependency>
 ````
