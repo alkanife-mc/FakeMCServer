@@ -1,4 +1,4 @@
-package dev.alka.fakemcserver.server;
+package dev.alka.fakemcserver.core;
 /*
  * This file is part of Flow Networking, licensed under the MIT License (MIT).
  *

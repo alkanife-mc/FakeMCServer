@@ -1,6 +1,6 @@
-package dev.alka.fakemcserver.server;
+package dev.alka.fakemcserver.core;
 
-import dev.alka.fakemcserver.server.logging.Logs;
+import dev.alka.fakemcserver.core.logging.Logs;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 
@@ -8,8 +8,6 @@ import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 
 /**
  * @author michidk

@@ -1,4 +1,4 @@
-package dev.alka.fakemcserver.server.logging;
+package dev.alka.fakemcserver.core.logging;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

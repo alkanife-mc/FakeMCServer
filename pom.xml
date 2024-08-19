@@ -14,14 +14,15 @@
 	<url>https://github.com/alkanife/FakeMCServer</url>
 
 	<modules>
-        <module>Server</module>
-        <module>CLI</module>
+        <module>fake-mc-server-core</module>
+        <module>fake-mc-server-cli</module>
     </modules>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
 
     <distributionManagement>

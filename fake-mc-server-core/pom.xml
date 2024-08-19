@@ -9,7 +9,7 @@
         <version>2.0.0</version>
     </parent>
 
-    <artifactId>Server</artifactId>
+    <artifactId>fake-mc-server-core</artifactId>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -24,7 +24,7 @@
                 <configuration>
                     <outputDirectory>../build/</outputDirectory>
                     <appendAssemblyId>false</appendAssemblyId>
-                    <finalName>FakeMCServer-${project.version}</finalName>
+                    <finalName>FakeMCServer-Core-${project.version}</finalName>
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>

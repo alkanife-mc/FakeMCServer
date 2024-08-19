@@ -8,8 +8,8 @@ import dev.alka.fakemcserver.cli.json.JsonConfig;
 import dev.alka.fakemcserver.cli.json.JsonFakeServer;
 import dev.alka.fakemcserver.cli.json.JsonProtocol;
 import dev.alka.fakemcserver.cli.json.JsonSocketServer;
-import dev.alka.fakemcserver.server.FakeMCServer;
-import dev.alka.fakemcserver.server.logging.Logs;
+import dev.alka.fakemcserver.core.FakeMCServer;
+import dev.alka.fakemcserver.core.logging.Logs;
 import dev.alka.utils.builds.BuildMeta;
 import dev.alka.utils.builds.BuildUtils;
 import dev.alka.utils.cli.PrettyUsage;
@@ -20,7 +20,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.file.Files;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Base64;
 

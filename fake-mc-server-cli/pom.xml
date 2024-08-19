@@ -9,12 +9,13 @@
         <version>2.0.0</version>
     </parent>
 
-    <artifactId>CLI</artifactId>
+    <artifactId>fake-mc-server-cli</artifactId>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
 
     <build>
@@ -57,7 +58,7 @@
     <dependencies>
         <dependency>
             <groupId>dev.alka</groupId>
-            <artifactId>Server</artifactId>
+            <artifactId>fake-mc-server-core</artifactId>
             <version>2.0.0</version>
             <scope>compile</scope>
         </dependency>

@@ -1,6 +1,6 @@
-package dev.alka.fakemcserver.server;
+package dev.alka.fakemcserver.core;
 
-import dev.alka.fakemcserver.server.logging.Logs;
+import dev.alka.fakemcserver.core.logging.Logs;
 
 import java.io.Closeable;
 import java.net.InetAddress;
