@@ -1,4 +1,4 @@
-package dev.alka.fakemcserver.core.logging;
+package dev.alka.fakemcserver.logging;
 
 import java.sql.Timestamp;
 import java.util.logging.Level;

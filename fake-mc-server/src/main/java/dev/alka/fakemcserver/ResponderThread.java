@@ -1,6 +1,6 @@
-package dev.alka.fakemcserver.core;
+package dev.alka.fakemcserver;
 
-import dev.alka.fakemcserver.core.logging.Logs;
+import dev.alka.fakemcserver.logging.Logs;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 

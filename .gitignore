@@ -1,14 +1,11 @@
-### Project builds
+target/
 build/
 
-### Maven
-target/
-
-### IntelliJ
+### IntelliJ IDEA ###
 .idea/
 
-### VScode
+### VS Code ###
 .vscode/
 
-### MacOS
+### Mac OS ###
 .DS_Store

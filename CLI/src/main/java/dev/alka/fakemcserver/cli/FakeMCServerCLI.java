@@ -4,12 +4,12 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.ParameterException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import dev.alka.fakemcserver.FakeMCServer;
 import dev.alka.fakemcserver.cli.json.JsonConfig;
 import dev.alka.fakemcserver.cli.json.JsonFakeServer;
 import dev.alka.fakemcserver.cli.json.JsonProtocol;
 import dev.alka.fakemcserver.cli.json.JsonSocketServer;
-import dev.alka.fakemcserver.core.FakeMCServer;
-import dev.alka.fakemcserver.core.logging.Logs;
+import dev.alka.fakemcserver.logging.Logs;
 import dev.alka.utils.builds.BuildMeta;
 import dev.alka.utils.builds.BuildUtils;
 import dev.alka.utils.cli.PrettyUsage;
@@ -256,5 +256,4 @@ public class FakeMCServerCLI {
         int lastDotIndex = fileName.lastIndexOf('.');
         return (lastDotIndex == -1) ? "" : fileName.substring(lastDotIndex + 1);
     }
-
 }

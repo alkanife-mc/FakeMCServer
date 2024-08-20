@@ -5,6 +5,7 @@
 [![Licence](https://img.shields.io/github/license/alkanife/fake-mc-server?style=flat-square)](LICENSE)
 [![Java version 21 or above](https://img.shields.io/badge/Java-21%2B-blueviolet?style=flat-square)](pom.xml)
 [![Version 2.0.0](https://img.shields.io/badge/Version-2.0.0-blue?style=flat-square)](pom.xml)
+[![CLI version 1.0.0](https://img.shields.io/badge/Version-2.0.0-blue?style=flat-square)](pom.xml)
 [![Jenkins Build](https://img.shields.io/jenkins/build?jobUrl=https%3A%2F%2Fjenkins.alka.dev%2Fjob%2Ffake-mc-server%2F&style=flat-square)](https://jenkins.alka.dev/job/fake-mc-server/)
 ![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/alkanife/fake-mc-server?style=flat-square)
 
@@ -32,8 +33,8 @@ You can [download the CLI](https://jenkins.alka.dev/job/fake-mc-server/) and use
 
 ### Usage
 ````
-Usage...: java -jar FakeMCServer-CLI-2.0.0.jar [options...]
-Example.: java -jar FakeMCServer-CLI-2.0.0.jar -start -logs server.log
+Usage...: java -jar FakeMCServer-CLI.jar [options...]
+Example.: java -jar FakeMCServer-CLI.jar -start -logs server.log
 
 Options:
    -help, -h          Display usage
@@ -97,30 +98,33 @@ If no configuration file has been found, the program will try to create a new on
 </repository>
 
 <dependency>
-    <groupId>dev.alka.fakemcserver</groupId>
-    <artifactId>core</artifactId>
+    <groupId>dev.alka</groupId>
+    <artifactId>fake-mc-server</artifactId>
     <version>VERSION</version>
 </dependency>
 ````
 
 ### Example of simple fake server
+
 ````java
+import dev.alka.fakemcserver.FakeMCServer;
+
 public static void main(String[] args) {
     // Init a default logger
     FakeMCServerLogs.initLogger();
-    
+
     // Write to server.log
     FakeMCServerLogs.allowFileOutput("server.log");
 
     // Create a new FakeMCServer
     FakeMCServer fakeMCServer = new FakeMCServer();
-    
+
     // Edit configuration
     fakeMCServer.setProtocol(767); // 1.21
     fakeMCServer.setMotd("<red>Maintenance!");
     fakeMCServer.setKickMessage("<red>The server is not available at this moment, sorry!");
     // ...
-    
+
     // Start server
     fakeMCServer.startServer();
 

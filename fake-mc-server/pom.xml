@@ -4,19 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>dev.alka.fakemcserver</groupId>
+    <groupId>dev.alka</groupId>
     <artifactId>fake-mc-server</artifactId>
     <version>2.0.0</version>
-    <packaging>pom</packaging>
-	
-	<name>fake-mc-server</name>
-	<description>A java program which simulates a minecraft server, to display information in the server list.</description>
-	<url>https://github.com/alkanife/FakeMCServer</url>
 
-	<modules>
-        <module>core</module>
-        <module>CLI</module>
-    </modules>
+    <name>fake-mc-server</name>
+    <description>A java program which simulates a minecraft server, to display information in the server list.</description>
+    <url>https://github.com/alkanife/FakeMCServer</url>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -37,6 +31,27 @@
 
     <build>
         <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <outputDirectory>../build/</outputDirectory>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <finalName>FakeMCServer-${project.version}</finalName>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
@@ -65,4 +80,26 @@
         </resources>
     </build>
 
+    <dependencies>
+        <dependency>
+            <groupId>net.kyori</groupId>
+            <artifactId>adventure-api</artifactId>
+            <version>4.13.0</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>net.kyori</groupId>
+            <artifactId>adventure-text-minimessage</artifactId>
+            <version>4.13.0</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>net.kyori</groupId>
+            <artifactId>adventure-text-serializer-gson</artifactId>
+            <version>4.13.0</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 </project>
