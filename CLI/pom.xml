@@ -6,7 +6,7 @@
 
     <groupId>dev.alka</groupId>
     <artifactId>CLI</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -42,7 +42,33 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <id>timestamp-property</id>
+                        <goals>
+                            <goal>timestamp-property</goal>
+                        </goals>
+                        <configuration>
+                            <name>build.time</name>
+                            <pattern>dd-MM-yyyy HH:mm:ss z</pattern>
+                            <timeZone>Europe/Paris</timeZone>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
     </build>
 
     <repositories>
