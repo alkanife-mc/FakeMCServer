@@ -71,7 +71,12 @@ public class ResponderThread extends Thread {
                                 "port:" + port);
 
                         if (fakeMCServer.getFakeServerIp() != null) {
-                            if (!ip.equalsIgnoreCase(fakeMCServer.getFakeServerIp())) {
+                            String mcIp = ip.toLowerCase();
+
+                            if (mcIp.endsWith(".")) // Sometimes the IP has a dot at the end, causing bugs
+                                mcIp = mcIp.substring(0, mcIp.length() - 1);
+
+                            if (!mcIp.equalsIgnoreCase(fakeMCServer.getFakeServerIp())) {
                                 Logs.debug("State request denied, wrong Minecraft IP");
                                 Logs.debug("===========================");
                                 return;

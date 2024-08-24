@@ -6,7 +6,7 @@
 
     <groupId>dev.alka</groupId>
     <artifactId>fake-mc-server</artifactId>
-    <version>2.0.0</version>
+    <version>2.0.1</version>
 
     <name>fake-mc-server</name>
     <description>A java program which simulates a minecraft server, to display information in the server list.</description>
